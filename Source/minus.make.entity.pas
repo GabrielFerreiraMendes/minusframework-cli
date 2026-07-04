@@ -109,7 +109,7 @@ begin
         LSB.AppendLine('    [ChavePrimaria]');
         LSB.AppendLine('    [AutoIncremento]');
       end;
-      LSB.AppendLine('    [Campo(''' + LowerCase(LField) + ''')]');
+      LSB.AppendLine('    [Coluna(''' + LowerCase(LField) + ''')]');
       LSB.AppendLine('    property ' + LField + ': ' + LType +
         ' read F' + LField + ' write F' + LField + ';');
     end;

@@ -1,0 +1,11 @@
+# Delphi
+*.dcu
+*.exe
+*.dll
+*.bpl
+*.dcp
+*.dpil
+*.map
+*.tds
+*.local
+__history/
