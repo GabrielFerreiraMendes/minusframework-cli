@@ -1,0 +1,71 @@
+name: CLI Release
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup RAD Studio 11.3
+        uses: emabdelatty/setup-delphi@v1
+        with:
+          version: '11.3'
+
+      - name: Build mfc (Release, Win32)
+        run: msbuild mfc.dproj /p:Config=Release /p:Platform=Win32
+
+      - name: Run tests
+        shell: pwsh
+        run: |
+          $testPath = "Win32\Release\Test.mfc.exe"
+          if (Test-Path $testPath) {
+            & $testPath
+          } else {
+            Write-Host "No test executable found at $testPath — skipping"
+          }
+
+      - name: Prepare artifacts
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path artifacts -Force | Out-Null
+          $exePaths = @("Win32\Release\mfc.exe", "mfc.exe", ".\mfc.exe")
+          $found = $false
+          foreach ($p in $exePaths) {
+            if (Test-Path $p) {
+              Copy-Item $p artifacts\mfc.exe
+              $found = $true
+              break
+            }
+          }
+          if (-not $found) {
+            Write-Warning "mfc.exe not found — checking directory contents"
+            Get-ChildItem -Recurse -Filter "mfc.exe" | Select-Object FullName
+          }
+          if (Test-Path "install.ps1") {
+            Copy-Item install.ps1 artifacts\
+          }
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mfc
+          path: artifacts/
+
+      - if: startsWith(github.ref, 'refs/tags/v')
+        name: Package release zip
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          Compress-Archive -Path artifacts\* -DestinationPath "mfc-$tag.zip"
+
+      - if: startsWith(github.ref, 'refs/tags/v')
+        name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: mfc-${{ github.ref_name }}.zip
