@@ -1,0 +1,14 @@
+__dcu/
+__history/
+Win32/
+Win64/
+*.dcu
+*.exe
+*.dll
+*.res
+*.rsm
+*.local
+*.identcache
+*.tgs
+*.tgw
+*.otares
