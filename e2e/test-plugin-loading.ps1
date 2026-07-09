@@ -1,4 +1,4 @@
-# e2e/test-plugin-loading.ps1
+﻿# e2e/test-plugin-loading.ps1
 # Validacao E2E: mfc carrega plugin DLL via PluginLoader e despacha comandos corretamente.
 $ErrorActionPreference = "Stop"
 
@@ -6,14 +6,14 @@ Write-Host "=== mfc Plugin E2E Test ===" -ForegroundColor Cyan
 
 $mfc = "Win32\Debug\mfc.exe"
 if (-not (Test-Path $mfc)) {
-  Write-Warning "mfc.exe not found at $mfc — skipping E2E (build required)"
+  Write-Warning "mfc.exe not found at $mfc - skipping E2E (build required)"
   Write-Host "=== E2E tests skipped (build needed) ===" -ForegroundColor Yellow
   exit 0
 }
 
 $pluginDir = "$env:LOCALAPPDATA\MinusFramework\plugins"
 if (-not (Test-Path $pluginDir)) {
-  Write-Host "Plugin dir $pluginDir not found — creating empty" -ForegroundColor Yellow
+  Write-Host "Plugin dir $pluginDir not found - creating empty" -ForegroundColor Yellow
   New-Item -ItemType Directory -Path $pluginDir -Force | Out-Null
 }
 
@@ -64,7 +64,7 @@ if (Test-Path $dllSource) {
   }
   Write-Host "  OK" -ForegroundColor Green
 } else {
-  Write-Host "MinusMigrator.dll not found at $dllSource — skipping plugin loading tests" -ForegroundColor Yellow
+  Write-Host "MinusMigrator.dll not found at $dllSource - skipping plugin loading tests" -ForegroundColor Yellow
 }
 
 Write-Host ""
