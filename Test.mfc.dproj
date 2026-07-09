@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{8F5B6A1C-3D2E-4F7B-9A8D-1E2F3C4B5A6D}</ProjectGuid>
-    <MainSource>mfc.dpr</MainSource>
+    <ProjectGuid>{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}</ProjectGuid>
+    <MainSource>Test.mfc.dpr</MainSource>
     <Config Condition="'$(Config)'==''">Debug</Config>
     <Platform Condition="'$(Platform)'==''">Win32</Platform>
     <Target>Win32</Target>
@@ -22,12 +22,11 @@
     <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <DelphiCompile Include="mfc.dpr">
+    <DelphiCompile Include="Test.mfc.dpr">
       <MainSource>MainSource</MainSource>
     </DelphiCompile>
-    <DCCReference Include="Source\MF.Migrator.CLI.pas"/>
-    <DCCReference Include="Source\MF.Migrator.API.pas"/>
     <DCCReference Include="Source\MF.Migrator.AutoUpdate.pas"/>
+    <DCCReference Include="Source\Test.AutoUpdate.pas"/>
   </ItemGroup>
   <Import Project="$(BDS)\Bin\CodeGear.Common.Targets"/>
   <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
