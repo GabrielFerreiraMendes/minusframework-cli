@@ -1,4 +1,4 @@
-program mfc;
+program MinusMigrator_CLI;
 
 {$APPTYPE CONSOLE}
 

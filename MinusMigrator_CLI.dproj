@@ -1,10 +1,10 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{8F5B6A1C-3D2E-4F7B-9A8D-1E2F3C4B5A6D}</ProjectGuid>
-        <MainSource>mfc.dpr</MainSource>
+        <MainSource>MinusMigrator_CLI.dpr</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <ProjectName Condition="'$(ProjectName)'==''">mfc</ProjectName>
+        <ProjectName Condition="'$(ProjectName)'==''">MinusMigrator_CLI</ProjectName>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Console</AppType>
         <FrameworkType>None</FrameworkType>
@@ -41,7 +41,7 @@
         <DCC_K>false</DCC_K>
         <DCC_UnitSearchPath>Source</DCC_UnitSearchPath>
         <DCC_Namespace>System;Xml;Data;$(DCC_Namespace)</DCC_Namespace>
-        <SanitizedProjectName>mfc</SanitizedProjectName>
+        <SanitizedProjectName>MinusMigrator_CLI</SanitizedProjectName>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">

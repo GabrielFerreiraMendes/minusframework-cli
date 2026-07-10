@@ -1,4 +1,4 @@
-program Test.mfc;
+program Test.MinusMigrator_CLI;
 
 {$APPTYPE CONSOLE}
 
