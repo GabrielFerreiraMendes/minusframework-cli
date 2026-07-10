@@ -49,7 +49,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 Write-Host "  OK" -ForegroundColor Green
 
-$dllSource = "..\minusframework-migrator\Win32\Debug\MinusMigrator.dll"
+$dllSource = "..\minusframework-migrator\Win32\Debug\MinusMigrator_DLL.dll"
 if (Test-Path $dllSource) {
   Copy-Item $dllSource "$pluginDir\MinusMigrator.DLL" -Force
   Write-Host "Test: MinusMigrator_CLI --help (with MinusMigrator plugin loaded)" -ForegroundColor Yellow

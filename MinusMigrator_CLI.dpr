@@ -9,5 +9,5 @@ uses
   MF.CLI.PluginLoader in 'Source\MF.CLI.PluginLoader.pas';
 
 begin
-  Run;
+  ExitCode := Run;
 end.

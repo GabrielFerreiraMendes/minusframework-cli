@@ -59,14 +59,26 @@ begin
   if not TDirectory.Exists(LDir) then
     Exit;
 
-  LFiles := TDirectory.GetFiles(LDir, '*.dll');
+  try
+    LFiles := TDirectory.GetFiles(LDir, '*.dll');
+  except
+    Exit;
+  end;
   for LFile in LFiles do
   begin
-    LHandle := LoadLibrary(PChar(LFile));
+    try
+      LHandle := LoadLibrary(PChar(LFile));
+    except
+      LHandle := 0;
+    end;
     if LHandle = 0 then
       Continue;
 
-    @LFactory := GetProcAddress(LHandle, 'mfCreatePlugin');
+    try
+      @LFactory := GetProcAddress(LHandle, 'mfCreatePlugin');
+    except
+      @LFactory := nil;
+    end;
     if not Assigned(@LFactory) then
     begin
       FreeLibrary(LHandle);
@@ -74,7 +86,11 @@ begin
     end;
 
     LPlugin := nil;
-    LResult := LFactory(LPlugin);
+    try
+      LResult := LFactory(LPlugin);
+    except
+      LResult := MM_ERR;
+    end;
     if (LResult = MM_OK) and Assigned(LPlugin) then
     begin
       SetLength(FPlugins, Length(FPlugins) + 1);
@@ -93,7 +109,11 @@ var
 begin
   for LPlugin in FPlugins do
   begin
-    Result := LPlugin.GetCommand(AName);
+    try
+      Result := LPlugin.GetCommand(AName);
+    except
+      Result := nil;
+    end;
     if Assigned(Result) then
       Exit;
   end;
@@ -106,8 +126,12 @@ var
 begin
   for LPlugin in FPlugins do
   begin
-    if SameText(LPlugin.GetName, AName) then
-      Exit(LPlugin);
+    try
+      if SameText(LPlugin.GetName, AName) then
+        Exit(LPlugin);
+    except
+      { skip plugin on error }
+    end;
   end;
   Result := nil;
 end;

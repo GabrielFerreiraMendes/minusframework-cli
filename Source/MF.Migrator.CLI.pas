@@ -6,7 +6,7 @@ unit MF.Migrator.CLI;
 
 interface
 
-procedure Run;
+function Run: Integer;
 
 implementation
 
@@ -110,13 +110,17 @@ begin
   WriteLn;
 end;
 
-procedure Run;
+var
+  FPluginLoader: TPluginLoader;
+
+function Run: Integer;
 var
   LArgList: TArray<string>;
   I: Integer;
   LPlugin: IMFPlugin;
   LCmd: IMFPluginCommand;
 begin
+  Result := 0;
   SetLength(LArgList, ParamCount);
   for I := 0 to ParamCount - 1 do
     LArgList[I] := ParamStr(I + 1);
@@ -137,8 +141,13 @@ begin
   begin
     if (Length(LArgList) > 1) and (LArgList[1] = 'list') then
     begin
-      for LPlugin in FPluginLoader.GetPlugins do
-        WriteLn(LPlugin.GetName + ' v' + LPlugin.GetVersion);
+      if Assigned(FPluginLoader) then
+        for LPlugin in FPluginLoader.GetPlugins do
+          try
+            WriteLn(LPlugin.GetName + ' v' + LPlugin.GetVersion);
+          except
+            WriteLn('(plugin error)');
+          end;
       Exit;
     end;
     if Length(LArgList) > 1 then
@@ -149,12 +158,21 @@ begin
     Exit;
   end;
 
-  LCmd := FPluginLoader.FindCommand(LArgList[0]);
+  try
+    LCmd := FPluginLoader.FindCommand(LArgList[0]);
+  except
+    LCmd := nil;
+  end;
   if Assigned(LCmd) then
   begin
-    if LCmd.Execute(LArgList) <> MM_OK then
-    begin
-      Escrever('Erro: comando falhou.', COR_VERMELHO);
+    try
+      if LCmd.Execute(LArgList) <> MM_OK then
+      begin
+        Escrever('Erro: comando falhou.', COR_VERMELHO);
+        WriteLn;
+      end;
+    except
+      Escrever('Erro: execucao do comando falhou.', COR_VERMELHO);
       WriteLn;
     end;
   end
@@ -163,17 +181,20 @@ begin
     Escrever('Comando desconhecido: ' + LArgList[0], COR_VERMELHO);
     WriteLn;
     PrintHelp;
+    Result := 1;
   end;
 end;
 
-var
-  FPluginLoader: TPluginLoader;
-
 initialization
-  FPluginLoader := TPluginLoader.Create;
-  FPluginLoader.LoadAll;
+  try
+    FPluginLoader := TPluginLoader.Create;
+    FPluginLoader.LoadAll;
+  except
+    FPluginLoader := nil;
+  end;
 
 finalization
-  FPluginLoader.Free;
+  if Assigned(FPluginLoader) then
+    FPluginLoader.Free;
 
 end.

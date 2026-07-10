@@ -12,9 +12,16 @@ uses
   MF.Migrator.AutoUpdate in '..\Source\MF.Migrator.AutoUpdate.pas',
   Test.AutoUpdate in 'Test.AutoUpdate.pas';
 
+var
+  runner: ITestRunner;
+  results: IRunResults;
 begin
   TDUnitX.RegisterTestFixture(Test.PluginContract.TTestPluginContract);
   TDUnitX.RegisterTestFixture(Test.PluginLoader.TTestPluginLoader);
   TDUnitX.RegisterTestFixture(Test.AutoUpdate.TTestAutoUpdate);
-  TDUnitX.Run;
+  runner := TDUnitX.CreateRunner(TDUnitXConsoleLogger.Create);
+  results := runner.Execute;
+  WriteLn;
+  Write('Pressione ENTER para sair...');
+  ReadLn;
 end.
