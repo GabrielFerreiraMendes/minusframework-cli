@@ -24,7 +24,7 @@ jobs:
       - name: Run tests
         shell: pwsh
         run: |
-          $testPath = "Win32\Release\Test.mfc.exe"
+          $testPath = "Tests\Win32\Release\Test.mfc.exe"
           if (Test-Path $testPath) {
             & $testPath
           } else {

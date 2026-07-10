@@ -1,0 +1,29 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{8A5B2C9D-3E4F-4A7B-9C1D-2E3F4A5B6C7D}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="mfc.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Tests\Test.mfc.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="mfc">
+        <MSBuild Projects="mfc.dproj"/>
+    </Target>
+    <Target Name="mfc:Clean">
+        <MSBuild Projects="mfc.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="mfc:Make">
+        <MSBuild Projects="mfc.dproj" Targets="Make"/>
+    </Target>
+</Project>

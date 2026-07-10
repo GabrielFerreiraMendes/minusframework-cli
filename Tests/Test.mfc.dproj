@@ -39,7 +39,7 @@
         <DCC_S>false</DCC_S>
         <DCC_F>false</DCC_F>
         <DCC_K>false</DCC_K>
-        <DCC_UnitSearchPath>Source</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>..\Source</DCC_UnitSearchPath>
         <DCC_Namespace>System;Xml;Data;$(DCC_Namespace)</DCC_Namespace>
         <SanitizedProjectName>Test_mfc</SanitizedProjectName>
     </PropertyGroup>
@@ -47,12 +47,12 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="Source\MF.Migrator.AutoUpdate.pas"/>
-        <DCCReference Include="Source\Test.AutoUpdate.pas"/>
-        <DCCReference Include="Source\MF.CLI.PluginContract.pas"/>
-        <DCCReference Include="Source\Test.PluginContract.pas"/>
-        <DCCReference Include="Source\MF.CLI.PluginLoader.pas"/>
-        <DCCReference Include="Source\Test.PluginLoader.pas"/>
+        <DCCReference Include="..\Source\MF.Migrator.AutoUpdate.pas"/>
+        <DCCReference Include="Test.AutoUpdate.pas"/>
+        <DCCReference Include="..\Source\MF.CLI.PluginContract.pas"/>
+        <DCCReference Include="Test.PluginContract.pas"/>
+        <DCCReference Include="..\Source\MF.CLI.PluginLoader.pas"/>
+        <DCCReference Include="Test.PluginLoader.pas"/>
     </ItemGroup>
     <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
 </Project>

@@ -3,7 +3,6 @@ unit MF.CLI.PluginLoader;
 interface
 
 uses
-  System.Classes,
   System.Generics.Collections,
   Winapi.Windows,
   MF.CLI.PluginContract;
@@ -13,10 +12,9 @@ type
 
   TPluginLoader = class
   private
-    FPlugins: TObjectList<IMFPlugin>;
-    FHandles: TList<HMODULE>;
+    FPlugins: TArray<IMFPlugin>;
+    FHandles: TArray<HMODULE>;
   public
-    constructor Create;
     destructor Destroy; override;
     class function GetPluginDir: string;
     procedure LoadAll;
@@ -31,21 +29,14 @@ uses
   System.SysUtils,
   System.IOUtils;
 
-constructor TPluginLoader.Create;
-begin
-  inherited Create;
-  FPlugins := TObjectList<IMFPlugin>.Create(False);
-  FHandles := TList<HMODULE>.Create;
-end;
-
 destructor TPluginLoader.Destroy;
 var
   LHandle: HMODULE;
 begin
-  FPlugins.Free;
+  FPlugins := nil;
   for LHandle in FHandles do
     FreeLibrary(LHandle);
-  FHandles.Free;
+  FHandles := nil;
   inherited Destroy;
 end;
 
@@ -86,8 +77,10 @@ begin
     LResult := LFactory(LPlugin);
     if (LResult = MM_OK) and Assigned(LPlugin) then
     begin
-      FPlugins.Add(LPlugin);
-      FHandles.Add(LHandle);
+      SetLength(FPlugins, Length(FPlugins) + 1);
+      FPlugins[High(FPlugins)] := LPlugin;
+      SetLength(FHandles, Length(FHandles) + 1);
+      FHandles[High(FHandles)] := LHandle;
     end
     else
       FreeLibrary(LHandle);
@@ -121,7 +114,7 @@ end;
 
 function TPluginLoader.GetPlugins: TArray<IMFPlugin>;
 begin
-  Result := FPlugins.ToArray;
+  Result := Copy(FPlugins);
 end;
 
 end.
