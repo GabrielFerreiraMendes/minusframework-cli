@@ -155,6 +155,7 @@ begin
     else
       Escrever('Comando plugin requer subcomando (ex: plugin list)', COR_VERMELHO);
     WriteLn;
+    Result := 1;
     Exit;
   end;
 
