@@ -12,3 +12,5 @@ Win64/
 *.tgs
 *.tgw
 *.otares
+
+.superpowers/
