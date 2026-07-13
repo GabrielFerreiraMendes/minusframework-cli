@@ -1,9 +1,8 @@
 # mfc — MinusFramework CLI
 
-CLI de migracao de banco de dados. Consome `MinusMigrator_DLL.dll`.
+CLI de scaffolding e migracao de banco de dados. Consome `MinusMigrator_DLL.dll`.
 
-Disponivel em tres tiers: **Free** (migrator + ORM), **Pro** (changelog, snapshot),
-**Enterprise** (lint, diff-databases).
+O CLI é **Free** (MIT) — todos os comandos sao gratuitos, sem subdivisoes Pro/Enterprise internas.
 
 ## Instalacao
 
@@ -22,23 +21,23 @@ mfc migrate -c sqlite://C:\test.db -p .\migrations
 
 ## Comandos
 
-| Comando | Tier | Descricao |
-|---------|------|-----------|
-| `init` | Free | Inicializa banco |
-| `migrate` | Free | Executa migrations |
-| `status` | Free | Status das migrations |
-| `rollback` | Free | Reverte migrations |
-| `tag` | Free | Cria tag |
-| `add-migration` | Free | Cria migration |
-| `generate-models` | Free | Gera classes ORM |
-| `auto-migrate` | Pro | Auto-migration |
-| `diff-changelog` | Pro | Diff entities |
-| `changelog-apply` | Pro | Aplica changelog |
-| `snapshot` | Pro | Cria snapshot |
-| `diff-snapshots` | Pro | Diff snapshots |
-| `lint` | Enterprise | Lint SQL |
-| `lint-rules` | Enterprise | Mostra regras |
-| `diff-databases` | Enterprise | Diff bancos |
+| Comando | Descricao |
+|---------|-----------|
+| `init` | Inicializa banco |
+| `migrate` | Executa migrations |
+| `status` | Status das migrations |
+| `rollback` | Reverte migrations |
+| `tag` | Cria tag |
+| `add-migration` | Cria migration |
+| `generate-models` | Gera classes ORM |
+| `auto-migrate` | Auto-migration |
+| `diff-changelog` | Diff entities |
+| `changelog-apply` | Aplica changelog |
+| `snapshot` | Cria snapshot |
+| `diff-snapshots` | Diff snapshots |
+| `lint` | Lint SQL |
+| `lint-rules` | Mostra regras |
+| `diff-databases` | Diff bancos |
 
 ## Build
 
