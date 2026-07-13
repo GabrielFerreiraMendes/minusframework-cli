@@ -11,9 +11,9 @@ function AutoUpdate: Boolean;
 implementation
 
 uses
-  System.SysUtils, System.IOUtils, System.Zip,
+  System.SysUtils, System.Classes, System.IOUtils, System.Zip,
   Winapi.Windows, Winapi.WinINet,
-  System.Net.HttpClient, System.Net.URLMon;
+  System.Net.HttpClient;
 
 type
   TmmPing = function: Integer; stdcall;
@@ -34,7 +34,6 @@ var
   ReleaseURL: PChar;
   DLLPath: string;
 begin
-  Result := True;
   DLLPath := GetDLLPath;
 
   if not TFile.Exists(DLLPath) then
@@ -73,6 +72,7 @@ var
   HTTP: THTTPClient;
   Response: IHTTPResponse;
   TempFile: string;
+  FS: TFileStream;
 begin
   TempFile := TPath.GetTempFileName;
   try
@@ -82,7 +82,12 @@ begin
       if Response.StatusCode <> 200 then
         Exit(False);
       Response.ContentStream.Position := 0;
-      Response.ContentStream.SaveToFile(TempFile);
+      FS := TFileStream.Create(TempFile, fmCreate);
+      try
+        FS.CopyFrom(Response.ContentStream, 0);
+      finally
+        FS.Free;
+      end;
     finally
       HTTP.Free;
     end;

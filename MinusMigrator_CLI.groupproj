@@ -1,0 +1,29 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{8A5B2C9D-3E4F-4A7B-9C1D-2E3F4A5B6C7D}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="MinusMigrator_CLI.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Tests\Test.MinusMigrator_CLI.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="MinusMigrator_CLI">
+        <MSBuild Projects="MinusMigrator_CLI.dproj"/>
+    </Target>
+    <Target Name="MinusMigrator_CLI:Clean">
+        <MSBuild Projects="MinusMigrator_CLI.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MinusMigrator_CLI:Make">
+        <MSBuild Projects="MinusMigrator_CLI.dproj" Targets="Make"/>
+    </Target>
+</Project>

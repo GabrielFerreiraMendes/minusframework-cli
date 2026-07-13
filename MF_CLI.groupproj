@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{8A5B2C9D-3E4F-4A7B-9C1D-2E3F4A5B6C7D}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="MinusMigrator_CLI.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Tests\Test.MinusMigrator_CLI.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="MinusMigrator_CLI">
+        <MSBuild Projects="MinusMigrator_CLI.dproj"/>
+    </Target>
+    <Target Name="MinusMigrator_CLI:Clean">
+        <MSBuild Projects="MinusMigrator_CLI.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MinusMigrator_CLI:Make">
+        <MSBuild Projects="MinusMigrator_CLI.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Test_MinusMigrator_CLI">
+        <MSBuild Projects="Tests\Test.MinusMigrator_CLI.dproj"/>
+    </Target>
+    <Target Name="Test_MinusMigrator_CLI:Clean">
+        <MSBuild Projects="Tests\Test.MinusMigrator_CLI.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Test_MinusMigrator_CLI:Make">
+        <MSBuild Projects="Tests\Test.MinusMigrator_CLI.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="MinusMigrator_CLI;Test_MinusMigrator_CLI"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="MinusMigrator_CLI:Clean;Test_MinusMigrator_CLI:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="MinusMigrator_CLI:Make;Test_MinusMigrator_CLI:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

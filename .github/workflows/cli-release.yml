@@ -18,13 +18,13 @@ jobs:
         with:
           version: '11.3'
 
-      - name: Build mfc (Release, Win32)
-        run: msbuild mfc.dproj /p:Config=Release /p:Platform=Win32
+      - name: Build MinusMigrator_CLI (Release, Win32)
+        run: msbuild MinusMigrator_CLI.dproj /p:Config=Release /p:Platform=Win32
 
       - name: Run tests
         shell: pwsh
         run: |
-          $testPath = "Win32\Release\Test.mfc.exe"
+          $testPath = "Tests\Win32\Release\Test.MinusMigrator_CLI.exe"
           if (Test-Path $testPath) {
             & $testPath
           } else {
@@ -35,18 +35,18 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Path artifacts -Force | Out-Null
-          $exePaths = @("Win32\Release\mfc.exe", "mfc.exe", ".\mfc.exe")
+          $exePaths = @("Win32\Release\MinusMigrator_CLI.exe")
           $found = $false
           foreach ($p in $exePaths) {
             if (Test-Path $p) {
-              Copy-Item $p artifacts\mfc.exe
+              Copy-Item $p artifacts\MinusMigrator_CLI.exe
               $found = $true
               break
             }
           }
           if (-not $found) {
-            Write-Warning "mfc.exe not found — checking directory contents"
-            Get-ChildItem -Recurse -Filter "mfc.exe" | Select-Object FullName
+            Write-Warning "MinusMigrator_CLI.exe not found — checking directory contents"
+            Get-ChildItem -Recurse -Filter "MinusMigrator_CLI.exe" | Select-Object FullName
           }
           if (Test-Path "install.ps1") {
             Copy-Item install.ps1 artifacts\
@@ -54,7 +54,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: mfc
+          name: MinusMigrator_CLI
           path: artifacts/
 
       - if: startsWith(github.ref, 'refs/tags/v')
@@ -62,10 +62,10 @@ jobs:
         shell: pwsh
         run: |
           $tag = "${{ github.ref_name }}"
-          Compress-Archive -Path artifacts\* -DestinationPath "mfc-$tag.zip"
+          Compress-Archive -Path artifacts\* -DestinationPath "MinusMigrator_CLI-$tag.zip"
 
       - if: startsWith(github.ref, 'refs/tags/v')
         name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          files: mfc-${{ github.ref_name }}.zip
+          files: MinusMigrator_CLI-${{ github.ref_name }}.zip
