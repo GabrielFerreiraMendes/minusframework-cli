@@ -1,0 +1,21 @@
+name: Review PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  review:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      
+      - name: MinusAI Code Review
+        uses: GabrielFerreiraMendes/minusframework-ai/.github/actions/review-pr@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pr-number: ${{ github.event.pull_request.number }}
+          repo: ${{ github.repository }}
+          commit-message: ${{ github.event.pull_request.title }}
