@@ -8,13 +8,19 @@ jobs:
   review:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - name: MinusAI Code Review
-        uses: GabrielFerreiraMendes/minusframework-ai/.github/actions/review-pr@main
+      - uses: actions/checkout@v7
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: GabrielFerreiraMendes/minusframework-ai
+          token: ${{ secrets.GH_PAT }}
+          path: _reviewer
+
+      - name: MinusAI Code Review
+        uses: ./_reviewer/.github/actions/review-pr
+        with:
+          github-token: ${{ secrets.GH_PAT }}
           pr-number: ${{ github.event.pull_request.number }}
           repo: ${{ github.repository }}
